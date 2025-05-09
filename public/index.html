@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gilgamesh Responde</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <h1>Gilgamesh Responde</h1>
+    <p>Pergunte algo sobre a Mesopotâmia:</p>
+    <textarea id="question" rows="3" placeholder="Digite sua pergunta..."></textarea>
+    <button onclick="sendQuestion()">Perguntar</button>
+    <div id="response"></div>
+  </div>
+  <script>
+    async function sendQuestion() {
+      const question = document.getElementById("question").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerHTML = "Gilgamesh está pensando...";
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question })
+      });
+      const data = await res.json();
+      responseDiv.innerHTML = data.text;
+    }
+  </script>
+</body>
+</html>
